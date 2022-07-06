@@ -7,12 +7,6 @@ body {
     background-color: black;
 }
 
-.title-container {
-    text-align: center;
-    width: 510px;
-    border-bottom: solid 1px #3a3a3c;
-}
-
 .game-container {
     height: 95vh;
     display: flex;
@@ -22,8 +16,33 @@ body {
 }
 
 .title-container {
+    text-align: center;
+    width: 510px;
+    border-bottom: solid 1px #3a3a3c;
+}
+
+.message-container {
+    height: 30px;
+}
+
+.tile-container {
     width: 330px;
     margin-bottom: 30px;
+}
+
+.tile-container .tile {
+    width: 62px;
+    height: 62px;
+    border: 2px solid #3a3a3c;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+}
+
+.tile-container div {
+    display: flex;
 }
 
 .keyboard-container {
