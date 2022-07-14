@@ -3,6 +3,18 @@ const keyboard = document.querySelector(".keyboard-container");
 const tileDisplay = document.querySelector(".tile-container");
 const messageDisplay = document.querySelector(".message-container");
 
+/* Beseda za ugibanje */
+let wordle;
+
+const getWordle = () => {
+  fetch("http://localhost:8000/word")
+    .then((response) => response.json())
+    .then((json) => (wordle = json.toUpperCase()))
+    .catch((err) => console.error(err));
+};
+
+getWordle();
+
 const keys = [
   "Q",
   "W",
@@ -45,8 +57,6 @@ const guesses = [
 
 /* Spremenljivka za state, kjer preverjamo, če je konec igre */
 let isGameOver = false;
-/* Beseda za ugibanje */
-let wordle = "ADIJO";
 /* Trenutna vrstica */
 let currentRow = 0;
 /* Trenutna pozicija v vrstici */
@@ -165,7 +175,7 @@ const addColors = () => {
   });
 
   guess.forEach((guess, index) => {
-    if ((guess.letter == wordle[index])) {
+    if (guess.letter == wordle[index]) {
       guess.color = "green-box";
       checkWordle = checkWordle.replace(guess.letter, "");
     }
