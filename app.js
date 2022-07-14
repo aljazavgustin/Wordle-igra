@@ -83,12 +83,12 @@ keys.forEach((key) => {
 
 const handleClick = (pressedKey) => {
   if (pressedKey === "<<") {
-      deleteLetter()
-      return
+    deleteLetter();
+    return;
   }
   if (pressedKey === "ENTER") {
-    checkGuess()
-    return
+    checkGuess();
+    return;
   }
   if (currentTile < 5 && currentRow < 6) {
     console.log("Kliknil si", pressedKey);
@@ -118,12 +118,12 @@ const deleteLetter = () => {
     guesses[currentRow][currentTile] = "";
     tile.setAttribute("data", "");
   }
-}
+};
 
 /* Funkcija, ki preveri vrstico z izbrano besedo */
 const checkGuess = () => {
   if (currentTile === 5) {
-    const guess = guesses[currentRow].join('');
+    const guess = guesses[currentRow].join("");
     addColors();
     if (guess == wordle) {
       showMessage("Odlično!");
@@ -131,7 +131,7 @@ const checkGuess = () => {
       if (currentRow >= 5) {
         isGameOver = true;
         showMessage("Konec igre!");
-        return
+        return;
       }
       if (currentRow < 5) {
         currentRow++;
@@ -139,7 +139,7 @@ const checkGuess = () => {
       }
     }
   }
-}
+};
 
 const showMessage = (message) => {
   const messageElement = document.createElement("p");
@@ -148,7 +148,7 @@ const showMessage = (message) => {
   setTimeout(() => {
     messageDisplay.removeChild(messageElement);
   }, 2000);
-}
+};
 
 /* Funkcija za spreminjanje barv glede na pravilnost poizkusa 
    Zelena = pravilna črka na pravilnem mestu
@@ -156,27 +156,38 @@ const showMessage = (message) => {
    Siva = črke ni v besedi
 */
 const addColors = () => {
+  let checkWordle = wordle;
+  const guess = [];
   const rowTiles = document.querySelector("#guessRow-" + currentRow).childNodes;
 
+  rowTiles.forEach((tile) => {
+    guess.push({ letter: tile.getAttribute("data"), color: "grey-box" });
+  });
+
+  guess.forEach((guess, index) => {
+    if ((guess.letter == wordle[index])) {
+      guess.color = "green-box";
+      checkWordle = checkWordle.replace(guess.letter, "");
+    }
+  });
+
+  guess.forEach((guess) => {
+    if (checkWordle.includes(guess.letter)) {
+      guess.color = "yellow-box";
+      checkWordle = checkWordle.replace(guess.letter, "");
+    }
+  });
+
   rowTiles.forEach((tile, index) => {
-    const letterData = tile.getAttribute("data");
     setTimeout(() => {
-      tile.classList.add('flip');
-      if (letterData == wordle[index]) {
-        tile.classList.add("green-box");
-        addColorsToKeyboard(letterData, "green-box");
-      } else if (wordle.includes(letterData)) {
-        tile.classList.add("yellow-box");
-        addColorsToKeyboard(letterData, "yellow-box");
-      } else {
-        tile.classList.add("grey-box");
-        addColorsToKeyboard(letterData, "grey-box");
-      }
+      tile.classList.add("flip");
+      tile.classList.add(guess[index].color);
+      addColorsToKeyboard(guess[index].letter, guess[index].color);
     }, index * 500);
-  })
-}
+  });
+};
 
 const addColorsToKeyboard = (keyLetter, color) => {
   const key = document.getElementById(keyLetter);
   key.classList.add(color);
-}
+};
