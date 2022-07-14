@@ -124,12 +124,13 @@ const deleteLetter = () => {
 const checkGuess = () => {
   if (currentTile === 5) {
     const guess = guesses[currentRow].join('');
+    addColors();
     if (guess == wordle) {
-      showMessage('Odlično!');
+      showMessage("Odlično!");
     } else {
       if (currentRow >= 5) {
         isGameOver = true;
-        showMessage('Konec igre!');
+        showMessage("Konec igre!");
         return
       }
       if (currentRow < 5) {
@@ -141,10 +142,33 @@ const checkGuess = () => {
 }
 
 const showMessage = (message) => {
-  const messageElement = document.createElement('p');
+  const messageElement = document.createElement("p");
   messageElement.textContent = message;
   messageDisplay.append(messageElement);
   setTimeout(() => {
     messageDisplay.removeChild(messageElement);
   }, 2000);
+}
+
+/* Funkcija za spreminjanje barv glede na pravilnost poizkusa 
+   Zelena = pravilna črka na pravilnem mestu
+   Rumena = črka obstaja v besedi, ampak ni na pravilnem mestu
+   Siva = črke ni v besedi
+*/
+const addColors = () => {
+  const rowTiles = document.querySelector("#guessRow-" + currentRow).childNodes;
+
+  rowTiles.forEach((tile, index) => {
+    const letterData = tile.getAttribute("data");
+    setTimeout(() => {
+      tile.classList.add('flip');
+      if (letterData == wordle[index]) {
+        tile.classList.add("green-box");
+      } else if (wordle.includes(letterData)) {
+        tile.classList.add("yellow-box");
+      } else {
+        tile.classList.add("grey-box");
+      }
+    }, index * 500);
+  })
 }

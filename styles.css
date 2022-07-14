@@ -48,8 +48,39 @@ body {
     margin: 2px;
 }
 
+.tile.flip {
+    animation: 0.5s linear flipping;
+}
+
+@keyframes flipping {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
 .tile-container div {
     display: flex;
+}
+
+.grey-box {
+    background-color: #3a3a3c !important;
+    border: none !important;
+}
+
+.yellow-box {
+    background-color: #b59f3a !important;
+    border: none !important;
+}
+
+.green-box {
+    background-color: #538d4e !important;
+    border: none !important;
 }
 
 .keyboard-container {
