@@ -92,17 +92,19 @@ keys.forEach((key) => {
 });
 
 const handleClick = (pressedKey) => {
-  if (pressedKey === "<<") {
-    deleteLetter();
-    return;
-  }
-  if (pressedKey === "ENTER") {
-    checkGuess();
-    return;
-  }
-  if (currentTile < 5 && currentRow < 6) {
-    console.log("Kliknil si", pressedKey);
-    addLetter(pressedKey);
+  if (!isGameOver) {
+    if (pressedKey === "<<") {
+      deleteLetter();
+      return;
+    }
+    if (pressedKey === "ENTER") {
+      checkGuess();
+      return;
+    }
+    if (currentTile < 5 && currentRow < 6) {
+      console.log("Kliknil si", pressedKey);
+      addLetter(pressedKey);
+    }
   }
 };
 
@@ -137,11 +139,16 @@ const checkGuess = () => {
     addColors();
     if (guess == wordle) {
       showMessage("Odlično!");
+      setTimeout(() => {
+        location.reload();
+      }, 5000);
     } else {
       if (currentRow >= 5) {
         isGameOver = true;
         showMessage("Konec igre!");
-        return;
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
       }
       if (currentRow < 5) {
         currentRow++;
