@@ -164,11 +164,19 @@ const addColors = () => {
       tile.classList.add('flip');
       if (letterData == wordle[index]) {
         tile.classList.add("green-box");
+        addColorsToKeyboard(letterData, "green-box");
       } else if (wordle.includes(letterData)) {
         tile.classList.add("yellow-box");
+        addColorsToKeyboard(letterData, "yellow-box");
       } else {
         tile.classList.add("grey-box");
+        addColorsToKeyboard(letterData, "grey-box");
       }
     }, index * 500);
   })
+}
+
+const addColorsToKeyboard = (keyLetter, color) => {
+  const key = document.getElementById(keyLetter);
+  key.classList.add(color);
 }
